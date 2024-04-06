@@ -3,13 +3,16 @@ import pickle
 import pandas as pd
 import random
 import requests
+from datetime import timedelta
 from flask import Flask, jsonify, request
+from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
-from sklearn.neighbors import NearestNeighbors
+from pydantic import BaseModel, ValidationError
+from validator import get_validated_data
 
 
 headers = {
@@ -23,11 +26,13 @@ app.config['JWT_SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
 client = MongoClient(os.getenv("MONGO_URI"))
 db = client.get_database("exercise_db")
 
 df = pd.read_csv("data/exercises-cleaned.csv")
+df.fillna(0, inplace=True)
 
 tfidf_vectorizer = TfidfVectorizer(stop_words='english')
 tfidf_matrix = tfidf_vectorizer.fit_transform(df['main'])
@@ -38,37 +43,50 @@ with open("model.pkl", "rb") as file:
     model = pickle.load(file)
 
 
+class UserRegistrationModel(BaseModel):
+    username: str
+    password: str
+
+class CalorieTrackingModel(BaseModel):
+    query: str
+    gender: str
+    weight_kg: int
+    height_cm: int
+    age: int
+
+
 @app.route('/api/v1/users/register', methods=['POST'])
 def register():
-    data = request.get_json(silent=True)
-    if not data or 'username' not in data or 'password' not in data:
-        return jsonify({'success': 0, 'message': 'Username and password are required.'}), 400
-    username = data.get('username')
-    password = data.get('password')
-    if username and password:
-        user = db.users.find_one({'username': username})
-        if user:
-            return jsonify({'success': 0, 'message': 'Username already exists!'}), 400
-        hashing = bcrypt.generate_password_hash(password).decode('utf-8')
-        db.users.insert_one({'username': username, 'password': hashing})
-        return jsonify({'success': 1, 'message': 'User created successfully.'}), 201
+    validated = get_validated_data(request.get_json(silent=True), UserRegistrationModel, ValidationError)
+    if not validated["success"]:
+        return jsonify(validated), validated["status"]
+    data = validated["data"]
+    username = data.username
+    password = data.password
+    user = db.users.find_one({'username': username})
+    if user:
+        return jsonify({'success': 0, 'message': 'Username already exists!'}), 400
+    hashing = bcrypt.generate_password_hash(password).decode('utf-8')
+    db.users.insert_one({'username': username, 'password': hashing})
+    return jsonify({'success': 1, 'message': 'User created successfully.'}), 201
 
 
 @app.route('/api/v1/users/login', methods=['POST'])
 def login():
-    data = request.get_json(silent=True)
-    if not data or 'username' not in data or 'password' not in data:
-        return jsonify({'success': 0, 'message': 'Username and password are required.'}), 400
-    username = data.get('username')
-    password = data.get('password')
-    if username and password:
-        user = db.users.find_one({'username': username})
-        if user:
-            if bcrypt.check_password_hash(user["password"], password):
-                token = create_access_token(identity=username)
-                return jsonify({'success':1, 'token': token, 'message': 'Logged in successfully!'}), 200
-            return jsonify({'success': 0, 'message': 'Incorrect Password.'}), 400
-        return jsonify({'success': 0, 'message': 'Username does not exist! Please register first.'}), 400
+    validated = get_validated_data(request.get_json(silent=True), UserRegistrationModel, ValidationError)
+    if not validated["success"]:
+        return jsonify(validated), validated["status"]
+    data = validated["data"]
+    username = data.username
+    password = data.password
+    user = db.users.find_one({'username': username})
+    if user:
+        if bcrypt.check_password_hash(user["password"], password):
+            expire_token_time = timedelta(hours=1)
+            token = create_access_token(identity=username, expires_delta=expire_token_time)
+            return jsonify({'success':1, 'token': token, 'message': 'Logged in successfully!'}), 200
+        return jsonify({'success': 0, 'message': 'Incorrect Password.'}), 400
+    return jsonify({'success': 0, 'message': 'Username does not exist! Please register first.'}), 400
 
 
 @app.route('/api/v1/users/logout', methods=['POST'])
@@ -99,17 +117,11 @@ def recommend():
 # todo 2 - optimise this
 @app.route('/api/v1/exercises/get-calories', methods=['POST'])
 def get_calories():
-    data = request.get_json(silent=True)
-    if not data:
-        return jsonify({'success': 0, 'message': 'Input is required to post this route.'}), 400
-    exercise_params = {
-        "query": data.get("query", ""),
-        "gender": data.get("gender", ""),
-        "weight_kg": float(data.get("weight", "0.00")),
-        "height_cm": float(data.get("height", "0.00")),
-        "age": int(data.get("age", "0"))
-    }
-    query = requests.post(url=os.getenv("NUTRI_API_ENDPOINT"), json=exercise_params, headers=headers)
+    validated = get_validated_data(request.get_json(silent=True), CalorieTrackingModel, ValidationError)
+    if not validated["success"]:
+        return jsonify(validated), validated["status"]
+    data = validated["data"]
+    query = requests.post(url=os.getenv("NUTRI_API_ENDPOINT"), json=data, headers=headers)
     data = query.json()
     total_cal_burnt = 0
     total_mins_spent = 0
