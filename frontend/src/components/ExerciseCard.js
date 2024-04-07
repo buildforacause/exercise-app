@@ -24,20 +24,20 @@ export default function ExerciseCard(props) {
 
     return (
         <>
-            <div class="card mb-3">
-                <div class="row g-0">
-                    <div class="col-md-4">
-                        <img src={process.env.PUBLIC_URL + "/exercises/" + data.id + "/images/" + num + ".jpg"} class="img-fluid rounded-start" alt={data.id} />
+            <div className="card mb-3">
+                <div className="row g-0">
+                    <div className="col-md-4">
+                        <img src={process.env.PUBLIC_URL + "/exercises/" + data.name.split(" ").join("_") + "/" + num + ".jpg"} className="img-fluid rounded-start" alt={data.id} />
                     </div>
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h4 class="card-title">{convertToTitleCase(data.name)}</h4>
-                            <p class="card-text">
+                    <div className="col-md-8" >
+                        <div className="card-body">
+                            <h4 className="card-title">{convertToTitleCase(data.name)}</h4>
+                            <p className="card-text">
                                 {instructions.map((elem, index) => (
                                     <><li key={index}>{elem}.</li><br/></>
                                 ))}
                             </p>
-                            <p class="card-text"><strong>Level: </strong> {convertToTitleCase(data.level)}, <strong>Equipment: </strong> {convertToTitleCase(data.equipment)}</p>
+                            <p className="card-text"><strong>Level: </strong> {convertToTitleCase(data.level)}, <strong>Equipment: </strong> {convertToTitleCase(data.equipment)}</p>
                         </div>
                     </div>
                 </div>

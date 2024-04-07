@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import '../App.css';
 import Navbar from '../components/Navbar.js';
+
 import { useAuth } from '../context/AuthContext.tsx';
 import { HttpRequest, HTTP_METHODS } from '../services/ApiService.js';
 import Alert from '../components/Alert.js';
@@ -48,20 +49,20 @@ return (
     <div className='register-container mt-5'>
         <div className='d-flex w-50 align-items-center py-4 px-4 card'>
             <main className="form-signin m-auto">
-                <form class="needs-validation" onSubmit={handleSubmit} noValidate>
+                <form className="needs-validation" onSubmit={handleSubmit} >
                     <h1 className="h3 mb-3 fw-normal">Please Register to continue</h1>
 
                     <div className="form-floating mb-2">
                         <input type="text" name='username' className="form-control" value={username} id="username" placeholder="eg: batman1234" onChange={handleUsernameChange} required/>
                         <label htmlFor="username">Username</label>
-                        <div class="invalid-feedback">
+                        <div className="invalid-feedback">
                             Username cannot be empty!
                         </div>
                     </div>
                     <div className="form-floating mb-2">
                         <input type="password" name='password' className="form-control" value={password} id="password" placeholder="Your Password" onChange={handlePasswordChange} required/>
                         <label htmlFor="password">Password</label>
-                        <div class="invalid-feedback">
+                        <div className="invalid-feedback">
                             Password cannot be empty!
                         </div>
                     </div>
@@ -73,6 +74,7 @@ return (
 
         <p className='text-black'>If you already have an account <a href='/login'>Login here</a>.</p>
     </div>
+    
     </>
   );
 }

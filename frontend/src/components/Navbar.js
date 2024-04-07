@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 const Navbar = (props) => {
     const authenticated = props.authenticated;
     return (
-    <div className="navbar-nav px-3 py-2 bg-dark text-white">
+    <div className="navbar-nav px-3 py-4 bg-dark text-white">
         <div className="container">
           <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <Link to={"/"} className="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
@@ -51,7 +51,7 @@ const Navbar = (props) => {
         {!authenticated && (
             <li className="nav-item dropdown">
                 <Link to={"/login"} className={"nav-link " + (props.active === "Join" ? "text-white" : "text-secondary")} >
-                Join Us
+                Login
                 </Link>
             </li>
         )}

@@ -11,7 +11,7 @@ from flask_bcrypt import Bcrypt
 from pymongo import MongoClient
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
-from pydantic import BaseModel, ValidationError
+from pydantic import BaseModel, ValidationError, constr
 from validator import get_validated_data
 
 
@@ -44,8 +44,8 @@ with open("model.pkl", "rb") as file:
 
 
 class UserRegistrationModel(BaseModel):
-    username: str
-    password: str
+    username: constr(min_length=1)
+    password: constr(min_length=1)
 
 class CalorieTrackingModel(BaseModel):
     query: str
