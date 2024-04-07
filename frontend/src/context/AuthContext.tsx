@@ -23,55 +23,46 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }: any) => {
 	const [authState, setAuthState] = useState<{
 		token: string | null,
-		authenticated: boolean | null
+		authenticated: boolean | null,
+		user: string | null
 	}>({
 		token: null,
-		authenticated: false
+		authenticated: false,
+		user: null
 	});
 
 	useEffect(() => {
 		const loadToken = async () => {
 			const token = localStorage.getItem(TOKEN);
+			const user = localStorage.getItem("user");
 			if (token) {
 				axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-				setAuthState({ token: token, authenticated: true });
+				setAuthState({ token: token, authenticated: true, user:user });
 			}
 		}
 		loadToken();
 	}, []);
 
 	const login = async (request: any) => {
-		const response = await HttpRequest("/api/v1/users/login", HTTP_METHODS.POST, request);
+		const response = await HttpRequest("/api/v1/auth/login", HTTP_METHODS.POST, request);
 		if (response?.success === 1 && response?.token) {
-			setAuthState({ token: response.token, authenticated: true });
+			setAuthState({ token: response.token, authenticated: true, user:response.user });
 			localStorage.setItem(TOKEN, response.token);
+			localStorage.setItem("user", response.user);
 		}
 		return response;
 	}
 
 	const logout = async () => {
 		localStorage.removeItem(TOKEN);
-		setAuthState({ token: null, authenticated: false });
+		localStorage.removeItem("user");
+		setAuthState({ token: null, authenticated: false, user: null });
 		return true
-	}
-
-	const isTokenAvailable = async () => {
-		const token = localStorage.getItem(TOKEN);
-		return !!token;
 	}
 
 	const isAuthenticated = async () => {
 		const flag = localStorage.getItem(TOKEN);
 		return flag ? true : false;
-	}
-
-	const getToken = async () => {
-		const token = localStorage.getItem(TOKEN);
-		return token;
-	}
-
-	const setToken = async (token: string) => {
-		localStorage.setItem(TOKEN, token);
 	}
 
 	const value = {

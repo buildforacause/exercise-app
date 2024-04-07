@@ -3,12 +3,13 @@ import {Link} from 'react-router-dom';
 
 const Navbar = (props) => {
     const authenticated = props.authenticated;
+    const user = props.user;
     return (
     <div className="navbar-nav px-3 py-4 bg-dark text-white">
         <div className="container">
           <div className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
             <Link to={"/"} className="d-flex align-items-center my-2 my-lg-0 me-lg-auto text-white text-decoration-none">
-              <h1>DigiAID</h1>
+              <h1>exercise.me</h1>
             </Link>
   
             <ul className="nav col-12 col-lg-auto my-2 justify-content-center my-md-0 text-small">
@@ -35,16 +36,27 @@ const Navbar = (props) => {
                     Recommend
                     </Link>
                 </li>
-                <li className="nav-item">
+                <ul class="navbar-nav mx-1 my-0">
+                  <li class="nav-item dropdown text-secondary">
+                    <button class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                      Welcome {user}
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                      <li className="nav-item dropdown">
+                          <Link to={'/logout'} className="dropdown-item" >
+                              Logout
+                          </Link>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+
+                {/* <li className="nav-item">
                     <Link to={"/profile"} className={"nav-link " + (props.active === "Profile" ? "text-white" : "text-secondary")}>
                     Profile
                     </Link>
-                </li>
-                <li className="nav-item dropdown">
-                    <Link to={'/logout'} className={"nav-link " + (props.active === "Logout" ? "text-white" : "text-secondary")} >
-                        Logout
-                    </Link>
-                </li>
+                </li> */}
+
                 </>
               )}
 

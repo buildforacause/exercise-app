@@ -55,7 +55,7 @@ class CalorieTrackingModel(BaseModel):
     age: int
 
 
-@app.route('/api/v1/users/register', methods=['POST'])
+@app.route('/api/v1/auth/register', methods=['POST'])
 def register():
     validated = get_validated_data(request.get_json(silent=True), UserRegistrationModel, ValidationError)
     if not validated["success"]:
@@ -71,7 +71,7 @@ def register():
     return jsonify({'success': 1, 'message': 'User created successfully.'}), 201
 
 
-@app.route('/api/v1/users/login', methods=['POST'])
+@app.route('/api/v1/auth/login', methods=['POST'])
 def login():
     validated = get_validated_data(request.get_json(silent=True), UserRegistrationModel, ValidationError)
     if not validated["success"]:
@@ -84,16 +84,9 @@ def login():
         if bcrypt.check_password_hash(user["password"], password):
             expire_token_time = timedelta(hours=1)
             token = create_access_token(identity=username, expires_delta=expire_token_time)
-            return jsonify({'success':1, 'token': token, 'message': 'Logged in successfully!'}), 200
+            return jsonify({'success':1, 'token': token, 'user': user["username"], 'message': 'Logged in successfully!'}), 200
         return jsonify({'success': 0, 'message': 'Incorrect Password.'}), 400
     return jsonify({'success': 0, 'message': 'Username does not exist! Please register first.'}), 400
-
-
-@app.route('/api/v1/users/logout', methods=['POST'])
-@jwt_required()
-def logout():
-    current_user = get_jwt_identity()
-    return jsonify({'success': 1, 'message': f'Successfully logged out user {current_user}'}), 200
 
 
 # todo 1 - optimise this + use mongoDB + add validations to all API's

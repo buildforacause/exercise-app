@@ -23,10 +23,10 @@ export default function Register() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    HttpRequest("/api/v1/users/register", HTTP_METHODS.POST, {"username": username, "password": password})
+    HttpRequest("/api/v1/auth/register", HTTP_METHODS.POST, {"username": username, "password": password})
     .then((response) => {
       console.log(response);
-      if (response.success === 1) {
+      if (response?.success === 1) {
         setUsername('');
         setPassword('');
         setErrors({
@@ -44,7 +44,7 @@ export default function Register() {
 
 return (
     <>
-    <Navbar active="Join" authenticated={authState.authenticated}/>
+    <Navbar active="Join" authenticated={authState.authenticated} user={authState.user} />
     {errors.message.length > 0 && <Alert message={errors.message} status={errors.status} />}
     <div className='register-container mt-5'>
         <div className='d-flex w-50 align-items-center py-4 px-4 card'>

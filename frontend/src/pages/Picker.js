@@ -10,7 +10,7 @@ export default function Picker() {
 
 return (
     <>
-    <Navbar active="Picker" authenticated={authState.authenticated}/>
+    <Navbar active="Picker" authenticated={authState.authenticated} user={authState.user} />
     <div className='register-container mt-5'>
         <h1>Wanna train {bodypart} ?</h1>
         <p className="text-muted">Tip: Click the body part you want to train from the figure below !</p>

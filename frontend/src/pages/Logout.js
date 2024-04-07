@@ -25,7 +25,7 @@ export default function Logout() {
 
 return (
     <>
-    <Navbar active="Join" authenticated={authState.authenticated}/>
+    <Navbar active="Join" authenticated={authState.authenticated} user={authState.user} />
     <div className='register-container mt-5'>
         <div className="h-100 p-5 bg-body-tertiary border rounded-3 mt-5">
             <h2>Do you really want to logout? </h2>

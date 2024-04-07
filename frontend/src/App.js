@@ -7,6 +7,7 @@ import React, {useEffect} from 'react';
 
 export default function App() {
   const { authState } = useAuth();
+  console.log(authState)
 
   const location = useLocation();
   const isLogoutTrue = new URLSearchParams(location.search).get('logout') === 'true';
@@ -20,7 +21,7 @@ export default function App() {
   return (
     <>
     <div className="main">
-      <Navbar active="Home" authenticated={authState.authenticated} />
+      <Navbar active="Home" authenticated={authState.authenticated} user={authState.user} />
       {isLogoutTrue && <Alert message={"Logged Out Successfully!"} status={"success"}/> }
       <div className="container-fluid col-md-10 px-2 py-0">
         <div className="row flex-lg-row-reverse align-items-center g-3 py-0">
@@ -39,7 +40,7 @@ export default function App() {
       </div>
       <hr className='container' />
 
-      <div className='register-container'>
+      <div className='register-container mb-5'>
         <h1 className='mb-4'>Our Features</h1>
 
         <div className='row container d-flex align-items-center justify-content-center gap-5'>

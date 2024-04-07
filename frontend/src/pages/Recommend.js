@@ -21,7 +21,7 @@ export default function Recommend() {
       window.history.replaceState(null, "", "/recommend")
       HttpRequest("/api/v1/exercises/recommend", HTTP_METHODS.POST, {"input": bodyPart})
       .then((response) => {
-        if (response.success === 1) {
+        if (response?.success === 1) {
             setExercises(response.data);
         }else{
           setErrors({
@@ -44,7 +44,7 @@ export default function Recommend() {
     event.preventDefault();
     HttpRequest("/api/v1/exercises/recommend", HTTP_METHODS.POST, {"input": input})
     .then((response) => {
-      if (response.success === 1) {
+      if (response?.success === 1) {
         setExercises(response.data);
       }else{
         setErrors({
@@ -57,14 +57,14 @@ export default function Recommend() {
 
 return (
     <>
-    <Navbar active="Recommend" authenticated={authState.authenticated}/>
+    <Navbar active="Recommend" authenticated={authState.authenticated} user={authState.user} />
     {errors.message.length > 0 && <Alert message={errors.message} status={errors.status} />}
     <div className='register-container mt-5'>
         {authState.authenticated && (
             <>            
             <h3>Try some inputs for exercise recommendation</h3>
               <form onSubmit={handleSubmit} className='needs-validation d-flex w-100 justify-content-center align-items-center gap-4' >
-                <input type='text' id='input' value={input} onChange={handleInputChange} className='form-control w-50' required/>
+                <input type='text' id='input' value={input} onChange={handleInputChange} placeholder='eg: workout for my abs' className='form-control w-50' required/>
                 <button type='submit' className='btn btn-outline-secondary'>Recommend Exercises</button>
               </form>
             </>

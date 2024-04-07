@@ -63,7 +63,7 @@ export default function BMI() {
 
 return (
     <>
-    <Navbar active="BMI" authenticated={authState.authenticated}/>
+    <Navbar active="BMI" authenticated={authState.authenticated} user={authState.user} />
     <div className="container my-5">
         <h2>Enter the details!</h2>
         <hr />
