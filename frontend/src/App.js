@@ -57,7 +57,7 @@ export default function App() {
             <div className="card-body">
               <h5 className="card-title">Recommendations {! authState.authenticated && (<small className='text-danger fs-6'>(Login required)</small>)}</h5>
               <p className="card-text">Get recommendations based on your inputs. <strong>For example: only abs workout</strong>.</p>
-              <Link to={authState.authenticated ? "/recommend" : "/login"} className="btn btn-secondary">Try it</Link>
+              <Link to={authState.authenticated ? "/recommend" : "/login"} className="btn btn-secondary">Try it out</Link>
             </div>
           </div> 
 
@@ -66,7 +66,7 @@ export default function App() {
             <div className="card-body">
               <h5 className="card-title">BMI Calculator</h5>
               <p className="card-text">Want to know if you are healthy or overweight? Try our BMI calculator.</p>
-              <Link to={"/bmi"} className="btn btn-secondary">Try it</Link>
+              <Link to={"/bmi"} className="btn btn-secondary">Try it out</Link>
             </div>
           </div>  
         </div>

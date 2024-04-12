@@ -58,14 +58,14 @@ return (
 
                     <div className="form-floating mb-2">
                         <input type="text" name='username' className="form-control" value={username} id="username" placeholder="eg: batman1234" onChange={handleUsernameChange} required/>
-                        <label htmlhtmlFor="username">Username</label>
+                        <label htmlFor="username">Username</label>
                         <div className="invalid-feedback">
                             Username cannot be empty!
                         </div>
                     </div>
                     <div className="form-floating mb-2">
                         <input type="password" name='password' className="form-control" value={password} id="password" placeholder="Your Password" onChange={handlePasswordChange} required/>
-                        <label htmlhtmlFor="password">Password</label>
+                        <label htmlFor="password">Password</label>
                         <div className="invalid-feedback">
                             Password cannot be empty!
                         </div>
