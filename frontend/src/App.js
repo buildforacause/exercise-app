@@ -1,4 +1,3 @@
-import './App.css';
 import Navbar from './components/Navbar';
 import { useAuth } from './context/AuthContext.tsx';
 import { Link, useLocation } from 'react-router-dom';
@@ -7,7 +6,6 @@ import React, {useEffect} from 'react';
 
 export default function App() {
   const { authState } = useAuth();
-  console.log(authState)
 
   const location = useLocation();
   const isLogoutTrue = new URLSearchParams(location.search).get('logout') === 'true';

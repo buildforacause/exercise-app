@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import '../App.css';
 import Navbar from '../components/Navbar.js';
-
 import { useAuth } from '../context/AuthContext.tsx';
 
 export default function Picker() {
@@ -11,13 +9,18 @@ export default function Picker() {
 return (
     <>
     <Navbar active="Picker" authenticated={authState.authenticated} user={authState.user} />
-    <div className='register-container mt-5'>
+    <div className='register-container mt-5' style={{overflowX:"hidden"}}>
         <h1>Wanna train {bodypart} ?</h1>
         <p className="text-muted">Tip: Click the body part you want to train from the figure below !</p>
-        <div className='d-flex align-items-center justify-content-center gap-4'>
+        <div className='row'>
+          <div className='col-md-6'>
+          <img src={process.env.PUBLIC_URL + "/front-body.png"} width="100%" height="85%" useMap="#pickerfront" alt='picker'/>
 
-        <img src={process.env.PUBLIC_URL + "/front-body.png"} width="333" height="600" useMap="#pickerfront" alt='picker'/>
-        <img src={process.env.PUBLIC_URL + "/back-body.png"} width="299" height="600" useMap="#pickerback" alt='picker'/>
+          </div>
+          <div className='col-md-6'>
+          <img src={process.env.PUBLIC_URL + "/back-body.png"} width="100%" height="85%" useMap="#pickerback" alt='picker'/>
+          </div>
+
         </div>
         <map name="pickerfront">
             <area shape="rect" coords="11,109,85,335" href="/recommend?train=arms" alt="arms" onMouseMove={() => setBodyPart('Arms')} />

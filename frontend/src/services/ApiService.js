@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const domain = process.env.REACT_APP_API_URL;
+const domain = "http://localhost:5000";
 const TOKEN = "token";
 
 export const HTTP_METHODS = {
@@ -12,7 +12,7 @@ export const HTTP_METHODS = {
 export const HttpRequest = async (url, method = 'GET', data = null) => {
 	try {
 		if (method === 'POST' && (data === null || data === undefined)) {
-			throw new Error(`Body is mandatory for POST Call`);
+			return {"success": 0, "message": "No data was sent in this route."}
 		}
 		const config = {
 			method: method,
@@ -29,18 +29,15 @@ export const HttpRequest = async (url, method = 'GET', data = null) => {
 			config.data = data;
 		}
 		const response = await axios(config);
-        console.log(response.data)
 		return response.data;
 
 	} catch (error) {
 		if (error.response) {
-			console.log(error.response.data);
-			return error.response.data;
+			return error.response.data
 		} else if (error.request) {
-			console.log('No response received:', error.request);
-			return error.request;
+			return {"success": 0, "message": "Connection refused due to server downtime."}
 		} else {
-			console.log('Error:', error.message);
+			return {"success": 0, "message": error.message}
 		}
 	}
 };

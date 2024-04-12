@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import '../App.css';
 import Navbar from '../components/Navbar.js';
-
 import { useAuth } from '../context/AuthContext.tsx';
 import { useLocation } from 'react-router-dom';
 import { HttpRequest, HTTP_METHODS } from '../services/ApiService.js';
@@ -25,7 +23,7 @@ export default function Recommend() {
             setExercises(response.data);
         }else{
           setErrors({
-            message: response.message,
+            message: response?.message ? response.message : "Something went wrong",
             status: 'danger'
           })
         }
@@ -48,7 +46,7 @@ export default function Recommend() {
         setExercises(response.data);
       }else{
         setErrors({
-          message: response.message,
+          message: response?.message ? response.message : "Something went wrong",
           status: 'danger'
         })
       }
@@ -71,7 +69,7 @@ return (
         )}
         <div className='container my-5'>
             {exercises && exercises.map((exercise, index) => (
-                <ExerciseCard exercise={exercise} index={index} />
+                <ExerciseCard key={index} exercise={exercise} index={index} />
             ))}
         </div>
     </div>

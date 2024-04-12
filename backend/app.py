@@ -2,7 +2,6 @@ import os
 import pickle
 import pandas as pd
 import random
-import requests
 from datetime import timedelta
 from flask import Flask, jsonify, request
 from flask_cors import CORS
@@ -13,16 +12,12 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.preprocessing import StandardScaler
 from pydantic import BaseModel, ValidationError, constr
 from validator import get_validated_data
+from waitress import serve
 
-
-headers = {
-    "x-app-id": os.getenv("NUTRI_API_APP_ID"),
-    "x-app-key": os.getenv("NUTRI_API_KEY"),
-}
 
 app = Flask(__name__)
 
-app.config['JWT_SECRET_KEY'] = os.getenv("SECRET_KEY")
+app.config['JWT_SECRET_KEY'] = os.urandom(12).hex()
 
 jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
@@ -44,15 +39,8 @@ with open("model.pkl", "rb") as file:
 
 
 class UserRegistrationModel(BaseModel):
-    username: constr(min_length=1)
-    password: constr(min_length=1)
-
-class CalorieTrackingModel(BaseModel):
-    query: str
-    gender: str
-    weight_kg: int
-    height_cm: int
-    age: int
+    username: constr(min_length=4)
+    password: constr(min_length=4)
 
 
 @app.route('/api/v1/auth/register', methods=['POST'])
@@ -89,7 +77,6 @@ def login():
     return jsonify({'success': 0, 'message': 'Username does not exist! Please register first.'}), 400
 
 
-# todo 1 - optimise this + use mongoDB + add validations to all API's
 @app.route('/api/v1/exercises/recommend', methods=['POST'])
 def recommend():
     data = request.get_json(silent=True)
@@ -106,32 +93,10 @@ def recommend():
     return jsonify({'success': 1, 'data': exercises, 'message': 'Data recommended successfully'}), 200
 
 
-# 1 second loading time due to external api call
-# todo 2 - optimise this
-@app.route('/api/v1/exercises/get-calories', methods=['POST'])
-def get_calories():
-    validated = get_validated_data(request.get_json(silent=True), CalorieTrackingModel, ValidationError)
-    if not validated["success"]:
-        return jsonify(validated), validated["status"]
-    data = validated["data"]
-    query = requests.post(url=os.getenv("NUTRI_API_ENDPOINT"), json=data, headers=headers)
-    data = query.json()
-    total_cal_burnt = 0
-    total_mins_spent = 0
-    exercises = []
-    for n in range(0, len(data['exercises'])):
-        exercise = [data['exercises'][n]['name'].title(), data['exercises'][n]['nf_calories'],
-                    data['exercises'][n]['duration_min']]
-        exercises.append(exercise)
-        total_cal_burnt = total_cal_burnt + data['exercises'][n]['nf_calories']
-        total_mins_spent = total_mins_spent + data['exercises'][n]['duration_min']
-        return jsonify({'success': 1, 'message': f"You've burnt {total_cal_burnt} calories and spent {total_mins_spent} minutes!"}), 200
-
-
+# a route to just get the status of the API running
 @app.route("/", methods=["GET"])
 def index():
     return jsonify({"status": 200}), 200
 
-
 if __name__ == '__main__':
-    app.run(debug=True)
+   serve(app, host="0.0.0.0", port=5000)

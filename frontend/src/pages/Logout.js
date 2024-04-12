@@ -1,8 +1,5 @@
-
 import React, { useEffect } from 'react';
-import '../App.css';
 import Navbar from '../components/Navbar.js';
-
 import { useAuth } from '../context/AuthContext.tsx';
 
 export default function Logout() {

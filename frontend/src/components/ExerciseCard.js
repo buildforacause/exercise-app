@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import '../App.css';
+
 
 export default function ExerciseCard(props) {
     const [num, setNum] = useState("0");
@@ -24,24 +24,25 @@ export default function ExerciseCard(props) {
 
     return (
         <>
-            <div className="card mb-3">
-                <div className="row g-0">
-                    <div className="col-md-4">
-                        <img src={process.env.PUBLIC_URL + "/exercises/" + data.name.split(" ").join("_") + "/" + num + ".jpg"} className="img-fluid rounded-start" alt={data.id} />
-                    </div>
-                    <div className="col-md-8" >
-                        <div className="card-body">
-                            <h4 className="card-title">{convertToTitleCase(data.name)}</h4>
-                            <p className="card-text">
-                                {instructions.map((elem, index) => (
-                                    <><li key={index}>{elem}.</li><br/></>
-                                ))}
-                            </p>
-                            <p className="card-text"><strong>Level: </strong> {convertToTitleCase(data.level)}, <strong>Equipment: </strong> {convertToTitleCase(data.equipment)}</p>
-                        </div>
+        <div className="card mb-3">
+            <div className="row g-0">
+                <div className="col-md-4">
+                    <img src={"https://raw.githubusercontent.com/yuhonas/free-exercise-db/main/exercises/" + data.id + "/" + num + ".jpg"} className="img-fluid rounded-start" alt={data.id} />
+                </div>
+                <div className="col-md-8">
+                    <div className="card-body">
+                        <h4 className="card-title">{convertToTitleCase(data.name)}</h4>
+                        <p className="card-text">
+                            {instructions.map((elem, index) => (
+                                <><li key={index}>{elem}.</li></>
+                            ))}
+                        </p>
+                        <p className="card-text"><strong>Level: </strong> {convertToTitleCase(data.level)}, <strong>Equipment: </strong> {convertToTitleCase(data.equipment)}</p>
                     </div>
                 </div>
             </div>
+        </div>
+
         </>
     );
 }

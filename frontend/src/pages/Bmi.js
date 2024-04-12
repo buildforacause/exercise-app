@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import '../App.css';
 import Navbar from '../components/Navbar.js';
-
 import { useAuth } from '../context/AuthContext.tsx';
 
 export default function BMI() {
@@ -18,15 +16,15 @@ export default function BMI() {
         text = "warning"
         remarks = "Underweight"
     }
-    if (18.5 < bmi < 25){
+    else if (18.5 < bmi < 25){
         text = "success"
         remarks = "Healthy"
     }
-    if (25 < bmi < 30){
+    else if (25 < bmi < 30){
         text = "warning"
         remarks = "Overweight"
     }
-    if (bmi >= 30){
+    else if (bmi >= 30){
         text = "danger"
         remarks = "Obese"
     }
@@ -69,15 +67,15 @@ return (
         <hr />
         <form className="needs-validation" onSubmit={handleSubmit} >
             <div className="mb-3 col-md-4 col-lg-4">
-                <label for="weight" className="form-label">Tell Us Your Weight <span className="text-muted">(in kgs)</span></label>
-                <input placeholder="eg: 65.20" type="number" step="any" className="form-control" value={weight} onChange={handleWeightChange} id="weight" name="weight" required />
+                <label htmlFor="weight" className="form-label">Tell Us Your Weight <span className="text-muted">(in kgs)</span></label>
+                <input placeholder="eg: 65.20" type="number" step="any" min="10" max="635" className="form-control" value={weight} onChange={handleWeightChange} id="weight" name="weight" required />
                 <div className="invalid-feedback">
                     Weight cannot be empty!
                 </div>
             </div>
             <div className="mb-3 col-md-4 col-lg-4">
-                <label for="height" className="form-label">Tell Us Your Height <span className="text-muted">(in cms)</span></label>
-                <input placeholder="eg: 120.67" type="number" step="any" className="form-control" value={height} onChange={handleHeightChange} id="height" name="height" required />
+                <label htmlFor="height" className="form-label">Tell Us Your Height <span className="text-muted">(in cms)</span></label>
+                <input placeholder="eg: 120.67" type="number" step="any" min="50" max="272" className="form-control" value={height} onChange={handleHeightChange} id="height" name="height" required />
                 <div className="invalid-feedback">
                     Height cannot be empty!
                 </div>
@@ -89,8 +87,8 @@ return (
             <>
                 <h3>Results:</h3>
                 <hr/>
-                <h4>Your BMI is: <span class={"text-" + feedback.text}>{feedback.bmi}</span></h4>
-                <p className="text-muted">This indicates you are <span class={"text-decoration-underline text-" + feedback.text}>{ feedback.remarks }.</span> You can try out exercises from our <a className="text-secondary text-decoration-underline" href="/picker">exercise picker</a>!!</p>
+                <h4>Your BMI is: <span className={"text-" + feedback.text}>{feedback.bmi}</span></h4>
+                <p className="text-muted">This indicates you are <span className={"text-decoration-underline text-" + feedback.text}>{ feedback.remarks }.</span> You can try out exercises from our <a className="text-secondary text-decoration-underline" href="/picker">exercise picker</a>!!</p>
             </>
         )}
     </div>

@@ -36,12 +36,12 @@ const Navbar = (props) => {
                     Recommend
                     </Link>
                 </li>
-                <ul class="navbar-nav mx-1 my-0">
-                  <li class="nav-item dropdown text-secondary">
-                    <button class="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <ul className="navbar-nav mx-1 my-0">
+                  <li className="nav-item dropdown text-secondary">
+                    <button className="nav-link dropdown-toggle" id="navbarDarkDropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                       Welcome {user}
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
+                    <ul className="dropdown-menu" aria-labelledby="navbarDarkDropdownMenuLink">
                       <li className="nav-item dropdown">
                           <Link to={'/logout'} className="dropdown-item" >
                               Logout

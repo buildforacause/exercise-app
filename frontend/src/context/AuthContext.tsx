@@ -8,6 +8,7 @@ interface AuthProps {
 	authState?: {
 		token: string | null;
 		authenticated: boolean | null;
+		user: string | null;
 	};
 	onLogin?: (request) => Promise<any>;
 	onLogout?: () => Promise<any>;
