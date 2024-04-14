@@ -1,4 +1,3 @@
-# Use the official Python 3.10 image
 FROM python:3.10
 
 # Set working directory
@@ -20,4 +19,4 @@ COPY . /app/
 EXPOSE 5000
 
 # Start the app
-CMD ["waitress-serve", "--listen=*:5000", "wsgi:app"]
+CMD ["waitress-serve", "--listen=*:5000", "app:app"]

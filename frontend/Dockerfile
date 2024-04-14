@@ -7,8 +7,6 @@ COPY package.json package-lock.json ./
 
 RUN npm ci --silent
 
-RUN npm install
-
 RUN npm install -g serve
 
 COPY . /app/
