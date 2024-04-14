@@ -23,7 +23,7 @@ jwt = JWTManager(app)
 bcrypt = Bcrypt(app)
 CORS(app, resources={r"/api/*": {"origins": "http://localhost:3000"}})
 
-client = MongoClient(os.getenv("MONGO_URI"))
+client = MongoClient("mongodb://mongodb:27017")
 db = client.get_database("exercise_db")
 
 df = pd.read_csv("data/exercises-cleaned.csv")

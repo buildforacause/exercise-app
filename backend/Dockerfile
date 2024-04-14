@@ -8,9 +8,6 @@ COPY requirements.txt /app/
 
 # Install Python dependencies
 RUN pip install --no-cache-dir -r /app/requirements.txt
-
-# env file
-COPY .env /app/.env
   
 # Copy the rest of the backend files
 COPY . /app/
