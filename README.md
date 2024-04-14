@@ -143,6 +143,18 @@ npm install
 cd exercise-app/backend
 ```
 
+5. Change the below line from 
+
+```
+client = MongoClient("mongodb://mongodb:27017")
+```
+
+to 
+
+```
+client = MongoClient("your mongo server URI from MongoDB compass")
+```
+
 5. Install the backend dependencies:
 
 ```
