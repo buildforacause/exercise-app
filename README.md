@@ -143,7 +143,7 @@ npm install
 cd exercise-app/backend
 ```
 
-5. Change the below line from 
+5. Change the below line in `app.py` from 
 
 ```
 client = MongoClient("mongodb://mongodb:27017")
