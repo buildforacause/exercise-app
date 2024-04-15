@@ -2,7 +2,7 @@
 
 ## Flow Diagram
 
-![Flow](https://raw.githubusercontent.com/buildforacause/exercise-app/main/screenshots/flow.png)
+![FlowDiagram](https://raw.githubusercontent.com/buildforacause/exercise-app/main/screenshots/flow.png)
 
 ## Reason For Choosing This Tech Stack
 
