@@ -6,7 +6,7 @@ This app uses Nearest Neighbours algorithm for recommendation and dataset for th
 
 To view the model building and data pre-processing steps, you can visit [here](https://github.com/buildforacause/exercise-app/blob/main/notebook/JTP_Technical.ipynb)
 
-To access the developer documentation (Flow diagrams and reason for choosing the tech stack) visit [here].(https://github.com/buildforacause/exercise-app/blob/main/DEV.md)
+To access the developer documentation (Flow diagrams and reason for choosing the tech stack) visit [here](https://github.com/buildforacause/exercise-app/blob/main/DEV.md).
 
 
 ## Index
