@@ -9,7 +9,6 @@ export default function App() {
 
   const location = useLocation();
   const isLogoutTrue = new URLSearchParams(location.search).get('logout') === 'true';
-
   useEffect(() => {
     if (isLogoutTrue) {
       window.history.replaceState(null, "", "/")
@@ -30,7 +29,12 @@ export default function App() {
             <h1 className="display-5 fw-bold lh-1 mb-3">Exercise Recommendation made easier</h1>
             <p className="lead">Now, you can directly use our exercise picker or custom inputs for getting recommendations of the exercises you want to do at your home or at the gym. </p>
             <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-              <Link to={"/register"} className="btn btn-secondary btn-lg px-4 me-md-2">Sign Up</Link>
+              {authState.authenticated ? (
+                <Link to={"/recommend"} className="btn btn-secondary btn-lg px-4 me-md-2">Try Recommendation</Link>
+              ) : (
+                  <Link to={"/register"} className="btn btn-secondary btn-lg px-4 me-md-2">Sign Up</Link>
+              )}
+              
               <Link to={"/picker"} className="btn btn-outline-secondary btn-lg px-4">Try the picker</Link>
             </div>
           </div>

@@ -13,7 +13,7 @@ export default function Login() {
   const authenticated = authState.authenticated;
   useEffect(() => {
     if(authenticated) {
-        window.history.back();
+        window.location.href = '/';
     }
   }, [authenticated])
 

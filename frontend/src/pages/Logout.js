@@ -7,14 +7,11 @@ export default function Logout() {
   const authenticated = authState.authenticated;
   useEffect(() => {
     if(!authenticated) {
-        window.history.back();
+        window.location.href = "/?logout=true";
     }
   }, [authenticated])
   const handleLogout = async () => {
     const response = await onLogout();
-    if (response) {
-        window.location.href = "/?logout=true";
-    }
   }
   const handleBackPress = () => {
     window.history.back();

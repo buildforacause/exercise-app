@@ -16,7 +16,7 @@ export default function ExerciseCard(props) {
 
     const convertToTitleCase = (element) => {
         const words = element.toLowerCase().split(' ');
-        const titleCaseWords = words.map((word) => {
+        const titleCaseWords = words.map((word, index) => {
           return word.charAt(0).toUpperCase() + word.slice(1);
         });
         return titleCaseWords.join(' ');
